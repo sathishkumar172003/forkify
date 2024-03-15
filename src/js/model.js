@@ -1,10 +1,11 @@
 // model basically all our business logic, how we store data, state of the application, how we fetch the data . How we handle  the data
 
-import { API_URL } from './config.js';
+import { API_URL, API_KEY } from './config.js';
 import { getJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
+  allRecipes: [],
 };
 
 export const loadRecipe = async function (id) {
@@ -29,3 +30,24 @@ export const loadRecipe = async function (id) {
     throw e;
   }
 };
+
+export const getAllRecipes = async function (value) {
+  try {
+    const url = urlBuilder(API_URL, value, API_KEY);
+
+    let { recipes } = await getJSON(url);
+    console.log(recipes);
+
+    if (recipes.length == 0) {
+      throw new Error('We could not find any recipe with the keyword');
+    }
+
+    state.allRecipes = recipes;
+  } catch (e) {
+    throw e;
+  }
+};
+
+function urlBuilder(baseUrl, searchValue, keyValue) {
+  return `${baseUrl}?search=${searchValue}&key=${keyValue}`;
+}

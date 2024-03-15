@@ -6,6 +6,9 @@ import 'regenerator-runtime/runtime'; // for polyfilling async await
 
 import * as model from './model.js';
 import recipeObj from './views/recipeViews.js';
+import searchObj from './views/searchViews.js';
+
+const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes';
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -29,8 +32,19 @@ const getSingleRecipe = async function () {
   }
 };
 
+const loadAllRecipes = async function () {
+  try {
+    value = searchObj.getQuery();
+    await model.getAllRecipes(value);
+    searchObj.render(model.state.allRecipes.slice(0, 10));
+  } catch (e) {
+    alert(e);
+  }
+};
+
 const init = function () {
   recipeObj.eventHandler(getSingleRecipe);
+  searchObj.handleEvent(loadAllRecipes);
 };
 
 init();

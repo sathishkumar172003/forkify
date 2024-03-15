@@ -7,9 +7,10 @@ export const getJSON = async function (url) {
     // checkweather you can fetch result withing specified time if not then throw error
 
     let response = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+    console.log(response);
 
     let data = await response.json();
-
+    console.log(data);
     if (!response.ok) throw new Error(`${data.message} ${response.status}`);
     // if there is no error , send json data
 
