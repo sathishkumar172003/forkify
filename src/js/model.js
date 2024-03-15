@@ -38,10 +38,6 @@ export const getAllRecipes = async function (value) {
     let { recipes } = await getJSON(url);
     console.log(recipes);
 
-    if (recipes.length == 0) {
-      throw new Error('We could not find any recipe with the keyword');
-    }
-
     state.allRecipes = recipes;
   } catch (e) {
     throw e;
