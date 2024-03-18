@@ -8,6 +8,7 @@ import * as model from './model.js';
 import recipeObj from './views/recipeViews.js';
 import searchObj from './views/searchViews.js';
 import resultObj from './views/resultView.js';
+import paginationObj from './views/paginationView.js';
 
 const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes';
 
@@ -39,16 +40,25 @@ const loadAllRecipes = async function () {
     value = searchObj.getQuery();
     await model.getAllRecipes(value);
 
-    resultObj.render(model.state.allRecipes.slice(0, 10));
+    data = model.getSearchResultsPage();
+
+    resultObj.render(data);
+    paginationObj.render(model.state.search);
   } catch (e) {
     alert(e);
   }
 };
 
+function handler(page) {
+  data = model.getSearchResultsPage(page);
+  resultObj.render(data);
+  paginationObj.render(model.state.search);
+}
+
 const init = function () {
   recipeObj.eventHandler(getSingleRecipe);
   searchObj.handleEvent(loadAllRecipes);
-  console.log('iam in init function');
+  paginationObj.handleEventClick(handler);
 };
 
 init();
