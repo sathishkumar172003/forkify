@@ -69,3 +69,14 @@ export const getSearchResultsPage = function (page = state.search.page) {
 function urlBuilder(baseUrl, searchValue, keyValue) {
   return `${baseUrl}?search=${searchValue}&key=${keyValue}`;
 }
+
+// handling servings
+export function handleServings(newServings) {
+  state.recipe.ingredients.forEach(ing => {
+    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
+  });
+  console.log(newServings);
+  // set the new servings
+  state.recipe.servings = newServings;
+  console.log(state.recipe.servings);
+}

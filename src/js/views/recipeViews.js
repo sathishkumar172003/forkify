@@ -2,8 +2,10 @@ import icons from '../../img/icons.svg';
 import { Fraction } from 'fractional';
 
 import View from './View.js';
+
 class RecipeViews extends View {
   _parentElement = document.querySelector('.recipe');
+  _servingBtnContainer;
 
   _errorMessage = 'We could not find that recipe. Please try again';
   _message = '';
@@ -36,12 +38,16 @@ class RecipeViews extends View {
       <span class="recipe__info-text">servings</span>
 
       <div class="recipe__info-buttons">
-        <button class="btn--tiny btn--increase-servings">
+        <button class="btn--tiny btn--decrease-servings" data-servings="${
+          this._data.servings - 1
+        } ">
           <svg>
             <use href="${icons}#icon-minus-circle"></use>
           </svg>
         </button>
-        <button class="btn--tiny btn--increase-servings">
+        <button class="btn--tiny btn--increase-servings" data-servings="${
+          this._data.servings + 1
+        }">
           <svg>
             <use href="${icons}#icon-plus-circle"></use>
           </svg>
@@ -110,6 +116,21 @@ class RecipeViews extends View {
 
   eventHandler(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
+  }
+
+  servingsEventHandler(handler) {
+    // event delegation
+
+    this._servingBtnContainer = document.querySelector('.recipe__info-buttons');
+    this._servingBtnContainer.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--tiny');
+
+      if (!btn) return; // guard clause
+
+      const { servings } = btn.dataset;
+
+      if (+servings > 0) handler(+servings);
+    });
   }
 }
 

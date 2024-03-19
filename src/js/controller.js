@@ -10,8 +10,6 @@ import searchObj from './views/searchViews.js';
 import resultObj from './views/resultView.js';
 import paginationObj from './views/paginationView.js';
 
-const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes';
-
 // https://forkify-api.herokuapp.com/v2
 
 const getSingleRecipe = async function () {
@@ -27,6 +25,7 @@ const getSingleRecipe = async function () {
     console.log(recipe);
 
     recipeObj.render(recipe);
+    recipeObj.servingsEventHandler(controlServings);
   } catch (err) {
     // handle the error
     console.log(err);
@@ -49,16 +48,28 @@ const loadAllRecipes = async function () {
   }
 };
 
-function handler(page) {
+// handling the pagination button changing
+function controlPagination(page) {
   data = model.getSearchResultsPage(page);
   resultObj.render(data);
   paginationObj.render(model.state.search);
 }
 
+// handling the servings changes
+function controlServings(newServings) {
+  model.handleServings(newServings);
+
+  const { recipe } = model.state;
+  console.log(recipe);
+
+  recipeObj.render(recipe);
+  recipeObj.servingsEventHandler(controlServings);
+}
+
 const init = function () {
   recipeObj.eventHandler(getSingleRecipe);
   searchObj.handleEvent(loadAllRecipes);
-  paginationObj.handleEventClick(handler);
+  paginationObj.handleEventClick(controlPagination);
 };
 
 init();
