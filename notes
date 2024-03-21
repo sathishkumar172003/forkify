@@ -1,20 +1,12 @@
-<!-- <a href="#5ed6604591c37cdc054bcc13">Recipe 1 </a>
-          <a href="#5ed6604591c37cdc054bca5d">Recipe 2</a> -->
-<!-- 
-          <li class="preview">
-            <a class="preview__link preview__link--active" href="#23456">
-              <figure class="preview__fig">
-                <img src="src/img/test-1.jpg" alt="Test" />
-              </figure>
-              <div class="preview__data">
-                <h4 class="preview__title">Pasta with Tomato Cream ...</h4>
-                <p class="preview__publisher">The Pioneer Woman</p>
-                <div class="preview__user-generated">
-                  <svg>
-                    <use href="src/img/icons.svg#icon-user"></use>
-                  </svg>
-                </div>
-              </div>
-            </a>
-          </li>
-           -->
+// create a virtual dom for the markup (These dom will not be displayed on browser but reside in memory for our usage)
+
+// //
+// const range = document.createRange();
+// const newDom = range.createContextualFragment(markup);
+// let newElements = newDom.querySelectorAll('*');
+// newElements = Array.from(newElements);
+
+// const oldDom = this._parentElement.querySelectorAll('*');
+// const curElements = Array.from(oldDom);
+
+// TODO: start from here

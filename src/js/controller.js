@@ -25,7 +25,12 @@ const getSingleRecipe = async function () {
     console.log(recipe);
 
     recipeObj.render(recipe);
+
     recipeObj.servingsEventHandler(controlServings);
+
+    data = model.getSearchResultsPage();
+
+    resultObj.update(data);
   } catch (err) {
     // handle the error
     console.log(err);
@@ -62,8 +67,7 @@ function controlServings(newServings) {
   const { recipe } = model.state;
   console.log(recipe);
 
-  recipeObj.render(recipe);
-  recipeObj.servingsEventHandler(controlServings);
+  recipeObj.update(recipe);
 }
 
 const init = function () {

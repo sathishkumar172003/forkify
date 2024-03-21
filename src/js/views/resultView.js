@@ -8,10 +8,20 @@ class ResultView extends View {
 
   _generateMarkup() {
     console.log(this._data);
+
+
+
+    // if any of the id of the recipe is equals to the hash of the url=>the user is currently viewing that recipe. so make it selected
+    
+    const curId = window.location.hash.slice(1)
+    
+    
+
+
     return this._data
       .map(recipe => {
         return ` <li class="preview">
-            <a class="preview__link preview__link--active" href="#${recipe.id}">
+            <a class="preview__link ${curId == recipe.id ? 'preview__link--active' : ''}" href="#${recipe.id}">
               <figure class="preview__fig">
                 <img src="${recipe.image_url}" alt="Test" />
               </figure>
