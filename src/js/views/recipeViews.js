@@ -62,7 +62,9 @@ class RecipeViews extends View {
     </div>
     <button class="btn--round">
       <svg class="">
-        <use href="${icons}#icon-bookmark"></use>
+        <use href="${icons}#icon-bookmark${
+      this._data.bookmarked ? '-fill' : ''
+    }"></use>
       </svg>
     </button>
   </div>
@@ -131,6 +133,27 @@ class RecipeViews extends View {
 
       if (+servings > 0) handler(+servings);
     });
+  }
+
+  bookMarkEventHandler(handler) {
+    // listens for an click event on bookmark button
+    // click -> take the closest -> find use element  -> change the href attribute
+
+    const btn = this._parentElement.querySelector('.btn--round');
+
+    btn.addEventListener(
+      'click',
+      function (e) {
+        let parentBtn = e.target.closest('.btn--round');
+
+        const useEl = parentBtn.querySelector('use');
+
+        //useEl.setAttribute('href', useEl.getAttribute('href') + '-fill');
+
+        // passing my current recipe to the callback function
+        handler(this._data);
+      }.bind(this)
+    );
   }
 }
 

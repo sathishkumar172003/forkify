@@ -11,6 +11,7 @@ export const state = {
     page: 1,
     resultsPerPage: RESULTS_PER_PAGE,
   },
+  bookmarks: [],
 };
 
 export const loadRecipe = async function (id) {
@@ -30,6 +31,10 @@ export const loadRecipe = async function (id) {
       ingredients: recipe.ingredients,
     };
 
+    // if the recipe is already in bookmark array: make it as true else false
+    if (state.bookmarks.some(rec => rec.id == id)) recipe.bookmarked = true;
+    else recipe.bookmarked = false;
+
     state.recipe = recipe;
   } catch (e) {
     throw e;
@@ -45,6 +50,7 @@ export const getAllRecipes = async function (value) {
 
     state.search.result = recipes;
     state.search.query = value;
+    state.search.page = 1;
   } catch (e) {
     throw e;
   }
@@ -79,4 +85,19 @@ export function handleServings(newServings) {
   // set the new servings
   state.recipe.servings = newServings;
   console.log(state.recipe.servings);
+}
+
+// handle bookmarking
+
+export function addBookmarks(recipe) {
+  state.bookmarks.push(recipe);
+  state.recipe.bookmarked = true;
+}
+
+export function deleteBookMark(id) {
+  let indexToDel = state.bookmarks.findIndex(rec => (rec.id = id));
+  state.bookmarks.splice(indexToDel, 1);
+
+  // set the currect recipe bookmark to false
+  if (id == state.recipe.id) state.recipe.bookmarked = false;
 }

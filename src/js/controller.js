@@ -27,6 +27,7 @@ const getSingleRecipe = async function () {
     recipeObj.render(recipe);
 
     recipeObj.servingsEventHandler(controlServings);
+    recipeObj.bookMarkEventHandler(controlBookMarks);
 
     data = model.getSearchResultsPage();
 
@@ -70,10 +71,18 @@ function controlServings(newServings) {
   recipeObj.update(recipe);
 }
 
+function controlBookMarks(recipe) {
+  if (model.state.recipe.bookmarked) model.deleteBookMark(recipe.id);
+  else model.addBookmarks(recipe);
+
+  recipeObj.update(model.state.recipe);
+}
+
 const init = function () {
   recipeObj.eventHandler(getSingleRecipe);
   searchObj.handleEvent(loadAllRecipes);
   paginationObj.handleEventClick(controlPagination);
+  recipeObj.bookMarkEventHandler(controlBookMarks);
 };
 
 init();
