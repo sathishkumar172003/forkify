@@ -100,4 +100,5 @@ export function deleteBookMark(id) {
 
   // set the currect recipe bookmark to false
   if (id == state.recipe.id) state.recipe.bookmarked = false;
+ 
 }

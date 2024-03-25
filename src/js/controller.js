@@ -9,6 +9,7 @@ import recipeObj from './views/recipeViews.js';
 import searchObj from './views/searchViews.js';
 import resultObj from './views/resultView.js';
 import paginationObj from './views/paginationView.js';
+import bookmarkObj from './views/bookMarkView.js';
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -76,6 +77,7 @@ function controlBookMarks(recipe) {
   else model.addBookmarks(recipe);
 
   recipeObj.update(model.state.recipe);
+  bookmarkObj.render(model.state.bookmarks);
 }
 
 const init = function () {
