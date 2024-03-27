@@ -33,6 +33,7 @@ const getSingleRecipe = async function () {
     data = model.getSearchResultsPage();
 
     resultObj.update(data);
+    bookmarkObj.render(model.state.bookmarks);
   } catch (err) {
     // handle the error
     console.log(err);
