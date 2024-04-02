@@ -5,11 +5,14 @@ import 'regenerator-runtime/runtime'; // for polyfilling async await
 // custom modules
 
 import * as model from './model.js';
+import { MODEL_TIMEOUT_SEC } from './config.js';
+
 import recipeObj from './views/recipeViews.js';
 import searchObj from './views/searchViews.js';
 import resultObj from './views/resultView.js';
 import paginationObj from './views/paginationView.js';
 import bookmarkObj from './views/bookMarkView.js';
+import addRecipeObj from './views/addRecipeView.js';
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -33,6 +36,7 @@ const getSingleRecipe = async function () {
     data = model.getSearchResultsPage();
 
     resultObj.update(data);
+    bookmarkObj.render(model.state.bookmarks);
   } catch (err) {
     // handle the error
     console.log(err);
@@ -80,7 +84,36 @@ function controlBookMarks(recipe) {
   bookmarkObj.render(model.state.bookmarks);
 }
 
+async function controlForms(data) {
+  try {
+    addRecipeObj.loadSnipper();
+
+    await model.uploadRecipe(data);
+
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+    // render it to the success message
+
+    addRecipeObj.renderMessage();
+    // have a time out
+
+    recipeObj.render(model.state.recipe);
+
+    bookmarkObj.render(model.state.bookmarks);
+
+    setTimeout(function () {
+      addRecipeObj.refactor();
+    }, MODEL_TIMEOUT_SEC * 1000);
+  } catch (e) {
+    addRecipeObj.renderError(e.message);
+    setTimeout(function () {
+      addRecipeObj.refactor();
+    }, MODEL_TIMEOUT_SEC * 1000);
+  }
+}
+
 const init = function () {
+  bookmarkObj.render(model.state.bookmarks);
+  addRecipeObj.formSubmissionEventHandler(controlForms);
   recipeObj.eventHandler(getSingleRecipe);
   searchObj.handleEvent(loadAllRecipes);
   paginationObj.handleEventClick(controlPagination);

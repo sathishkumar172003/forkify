@@ -1,12 +1,1 @@
-// create a virtual dom for the markup (These dom will not be displayed on browser but reside in memory for our usage)
-
-// //
-// const range = document.createRange();
-// const newDom = range.createContextualFragment(markup);
-// let newElements = newDom.querySelectorAll('*');
-// newElements = Array.from(newElements);
-
-// const oldDom = this._parentElement.querySelectorAll('*');
-// const curElements = Array.from(oldDom);
-
-// TODO: start from here
+ad - rec;
